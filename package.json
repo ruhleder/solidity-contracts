@@ -9,6 +9,7 @@
         "postinstall": "npx truffle compile && npm run generate-types"
     },
     "devDependencies": {
+        "@openzeppelin/test-helpers": "0.5.13",
         "@typechain/truffle-v5": "5.0.0",
         "@types/chai": "4.2.21",
         "@types/mocha": "9.0.0",
