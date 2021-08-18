@@ -39,6 +39,7 @@ contract CryptoWill {
 
     function withdraw(uint _withdrawAmount) external onlyOwner() {
         require(_withdrawAmount <= amount);
+        amount -= _withdrawAmount;
         Address.sendValue(owner, _withdrawAmount);
     }
 

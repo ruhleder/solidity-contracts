@@ -51,6 +51,22 @@ contract('CryptoWill', accounts => {
             ).to.equal(withdrawalAmount);
         });
 
+        it('should decrease stored amount on withdrawal', async () => {
+            // GIVEN
+            const instance = await CryptoWill.new(beneficiary, time.duration.days(1), {
+                from: owner,
+                value: web3.utils.toWei('1', 'ether'),
+            });
+
+            //WHEN
+            const withdrawalAmount = web3.utils.toWei('0.6', 'ether');
+            await instance.withdraw(withdrawalAmount, { from: owner });
+
+            // THEN
+            const amount = await instance.amount();
+            expect(amount.toString()).to.equal(web3.utils.toWei('0.4', 'ether'));
+        });
+
         it('should allow owner to withdraw full amount', async () => {
             // GIVEN
             const instance = await CryptoWill.new(beneficiary, time.duration.days(1), {
