@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MIT
+
 // This code has not been professionally audited, therefore I cannot make any promises about
 // safety or correctness. Use at own risk.
 
@@ -10,9 +12,9 @@ contract CryptoWill {
     uint lastCheckIn;
     uint interval;
 
-    constructor(address payable _beneficiary, uint _interval) public payable {
-        owner = msg.sender;
-        lastCheckIn = now;
+    constructor(address payable _beneficiary, uint _interval) payable {
+        owner = payable(msg.sender);
+        lastCheckIn = block.timestamp;
         beneficiary = _beneficiary;
         interval = _interval;
         amount = msg.value;
@@ -39,11 +41,11 @@ contract CryptoWill {
     }
 
     function claim() external onlyBeneficiary() {
-        require(now >= lastCheckIn + interval, "interval has not passed yet");
+        require(block.timestamp >= lastCheckIn + interval, "interval has not passed yet");
         selfdestruct(beneficiary);
     }
 
     function checkIn() public onlyOwner() {
-        lastCheckIn = now;
+        lastCheckIn = block.timestamp;
     }
 }
