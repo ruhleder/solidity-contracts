@@ -3,7 +3,9 @@
 // This code has not been professionally audited, therefore I cannot make any promises about
 // safety or correctness. Use at own risk.
 
-pragma solidity >=0.4.22 <0.9.0;
+pragma solidity >=0.8.0 <0.9.0;
+
+import "openzeppelin-solidity/contracts/utils/Address.sol";
 
 contract CryptoWill {
     address payable public owner;
@@ -37,7 +39,7 @@ contract CryptoWill {
 
     function withdraw(uint _withdrawAmount) external onlyOwner() {
         require(_withdrawAmount <= amount);
-        owner.transfer(_withdrawAmount);
+        Address.sendValue(owner, _withdrawAmount);
     }
 
     function claim() external onlyBeneficiary() {
